@@ -13,20 +13,23 @@ namespace BTreeTest
         static void Main(string[] args)
         {
             BTree tree = new BTree();
-            tree.InitBTree("2247##8##5##3#6##");
+            tree.InitBTree("2347##8##5##3#6##");
             tree.PrintBTreeByPreorder();
             tree.PrintBTreeByInorder();
             tree.PrintBTreeByPostorder();
             tree.PrintDepth();
             tree.PrintIsBalanced();
+            tree.PrintAllPathsWithSum(110);
+            tree.PrintCommonMinParentNode(8, 5);
+            tree.PrintCommonMinParentNode2(8, 5);
 
-            string test="247###5##";
-            BTreeEntity tree2 = BTree.BuildBTree(test);
-            bool result = tree.CheckMatchSubTree(tree2);
+            //string test="247###5##";
+            //BTreeEntity tree2 = BTree.BuildBTree(test);
+            //bool result = tree.CheckMatchSubTree(tree2);
 
-            Console.WriteLine("BTree1:{0}", tree.Entity.ToString());
-            Console.WriteLine("BTree2:{0}", tree2.ToString());
-            Console.WriteLine("Match result:{0}", result);
+            //Console.WriteLine("BTree1:{0}", tree.Entity.ToString());
+            //Console.WriteLine("BTree2:{0}", tree2.ToString());
+            //Console.WriteLine("Match result:{0}", result);
 
             Console.Read();
         }

@@ -129,6 +129,46 @@ namespace Algorithm.Core
             }
         }
 
+        /// <summary>
+        /// 获得所有从根节点到叶子节点的路径中，节点数值总和为指定值的路径
+        /// </summary>
+        /// <param name="sum"></param>
+        public void PrintAllPathsWithSum(int sum)
+        {
+            Console.WriteLine("从根节点到叶子节点的路径上和为{0}的结果：", sum);
+            AllPathWithSumInternal(_tree, "", 0, sum);
+        }
+
+        /// <summary>
+        /// 递归查找
+        /// </summary>
+        /// <param name="value1"></param>
+        /// <param name="value2"></param>
+        public void PrintCommonMinParentNode(int value1, int value2)
+        {
+            Console.WriteLine("节点{0}和节点{1}的公共最小父节点为：", value1, value2);
+            var node = FindCommonMinParentNodeInternal(_tree, value1, value2);
+            if (node != null)
+                Console.WriteLine(node.Value);
+            else
+                Console.WriteLine("没有找到");
+        }
+        
+        /// <summary>
+        /// 使用数组存储两个节点的路径，然后比较数组
+        /// </summary>
+        /// <param name="value1"></param>
+        /// <param name="value2"></param>
+        public void PrintCommonMinParentNode2(int value1, int value2)
+        {
+            Console.WriteLine("节点{0}和节点{1}的公共最小父节点为：", value1, value2);
+            var node = FindCommonMinParentNodeInternal2(_tree, value1, value2);
+            if (node != null)
+                Console.WriteLine(node.Value);
+            else
+                Console.WriteLine("没有找到");
+        }
+
         #region private methods
         /// <summary>
         /// 递归实现前序遍历
@@ -238,6 +278,133 @@ namespace Algorithm.Core
             if (tree1.Value != tree2.Value) return false;
 
             return CheckMatchSubTreeWhole(tree1.Left, tree2.Left) && CheckMatchSubTreeWhole(tree1.Right, tree2.Right);
+        }
+
+        private void AllPathWithSumInternal(BTreeEntity tree, string path, int tempSum, int targetSum)
+        {
+            if (tree == null) return;
+
+            tempSum += tree.Value;
+            path = path + "," + tree.Value;
+
+            if (tempSum > targetSum)
+            {
+                return;
+            }
+            else if (tempSum == targetSum)
+            {
+                Console.WriteLine(path.Substring(1));
+                return;
+            }
+            else
+            {
+                AllPathWithSumInternal(tree.Left, path, tempSum, targetSum);
+                AllPathWithSumInternal(tree.Right, path, tempSum, targetSum);
+            }
+        }
+
+        /// <summary>
+        /// 递归查找两个节点的位置。如果在均在单侧，则在单侧查找；否则，当前节点即为最小公共父节点
+        /// </summary>
+        /// <param name="tree"></param>
+        /// <param name="value1"></param>
+        /// <param name="value2"></param>
+        /// <returns></returns>
+        private BTreeEntity FindCommonMinParentNodeInternal(BTreeEntity tree, int value1, int value2)
+        {
+            if (tree == null)
+                return null;
+
+            if (_tree.Value == value1 || _tree.Value == value2)
+                return tree;
+
+            bool isInLeft1 = IsFoundChildNode(tree.Left, value1);
+            bool isInLeft2 = IsFoundChildNode(tree.Left, value2);
+
+            if (isInLeft1 && isInLeft2)
+            {
+                return FindCommonMinParentNodeInternal(tree.Left, value1, value2);
+            }
+
+            bool isInRight1 = IsFoundChildNode(tree.Right, value1);
+            bool isInRight2 = IsFoundChildNode(tree.Right, value2);
+
+            if (isInRight1 && isInRight2)
+            {
+                return FindCommonMinParentNodeInternal(tree.Right, value1, value2);
+            }
+
+            if (isInLeft1 && isInRight2 || isInLeft2 || isInRight1)
+                return tree;
+
+            return null;
+        }
+
+        /// <summary>
+        /// 查找指定节点是否存在二叉树中
+        /// </summary>
+        /// <param name="tree"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        private bool IsFoundChildNode(BTreeEntity tree, int value)
+        {
+            if (tree == null) return false;
+
+            if (tree.Value == value)
+                return true;
+
+            return IsFoundChildNode(tree.Left, value) || IsFoundChildNode(tree.Right, value);
+        }
+
+        /// <summary>
+        /// 使用数组存储两条节点路径，再顺序比较，找到最后一个相同的节点，即为最小公共父节点
+        /// </summary>
+        /// <param name="tree"></param>
+        /// <param name="value1"></param>
+        /// <param name="value2"></param>
+        /// <returns></returns>
+        private BTreeEntity FindCommonMinParentNodeInternal2(BTreeEntity tree, int value1, int value2)
+        {
+            List<BTreeEntity> list1 = new List<BTreeEntity>(), list2=new List<BTreeEntity>();
+            GetNodePathInternal(tree, value1, list1);
+            GetNodePathInternal(tree, value2, list2);
+
+            var e1 = list1.GetEnumerator();
+            var e2 = list2.GetEnumerator();
+
+            BTreeEntity t1,t2;
+            BTreeEntity result = null;
+            while (e1.MoveNext() && e2.MoveNext())
+            {
+                t1 = e1.Current;
+                t2 = e2.Current;
+                if (t1 != t2) break;
+
+                result = t1;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 获取二叉树中指定节点的节点路径（存放数组中）
+        /// </summary>
+        /// <param name="tree"></param>
+        /// <param name="value"></param>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        private bool GetNodePathInternal(BTreeEntity tree, int value, List<BTreeEntity> list)
+        {
+            if (tree == null) return false;
+
+            if (tree.Value == value) return true;
+
+            list.Add(tree);
+
+            bool found = GetNodePathInternal(tree.Left, value, list) || GetNodePathInternal(tree.Right, value, list);
+            if (!found) list.Remove(tree);
+
+            return found;
         }
         #endregion
     }
