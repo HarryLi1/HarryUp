@@ -7,8 +7,8 @@
     <ProjectGuid>{64D250C7-CBE6-4A9E-9A2F-DCF8D4786C55}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BTree</RootNamespace>
-    <AssemblyName>BTree</AssemblyName>
+    <RootNamespace>Algorithm.BTree</RootNamespace>
+    <AssemblyName>Algorithm.BTree</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,6 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Algorithm.Core\Algorithm.Core.csproj">
+      <Project>{d959fa11-49c1-4dc0-9bad-49f84028a751}</Project>
+      <Name>Algorithm.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

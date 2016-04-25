@@ -39,8 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BTreeCore.cs" />
-    <Compile Include="Entry\BTree.cs" />
+    <Compile Include="BTree.cs" />
+    <Compile Include="Entity\BTreeEntity.cs" />
+    <Compile Include="Extension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
