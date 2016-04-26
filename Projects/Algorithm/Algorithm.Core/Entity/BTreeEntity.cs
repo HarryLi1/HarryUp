@@ -22,4 +22,10 @@ namespace Algorithm.Core.Entity
                 );
         }
     }
+
+    public class TagBTreeEntity
+    {
+        public BTreeEntity Tree;
+        public bool IsRightProcessed;
+    }
 }

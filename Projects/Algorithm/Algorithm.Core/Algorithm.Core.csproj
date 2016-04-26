@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BSTree.cs" />
     <Compile Include="BTree.cs" />
     <Compile Include="Entity\BTreeEntity.cs" />
     <Compile Include="Extension.cs" />

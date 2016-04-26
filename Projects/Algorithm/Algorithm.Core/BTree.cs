@@ -1,5 +1,6 @@
 ﻿using Algorithm.Core.Entity;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -77,21 +78,21 @@ namespace Algorithm.Core
         public void PrintBTreeByPreorder()
         {
             Console.Write("前序遍历二叉树：");
-            PreorderTraversal(_tree);
+            PreorderTraversalRecursively(_tree);
             Console.WriteLine();
         }
 
         public void PrintBTreeByPostorder()
         {
             Console.Write("后序遍历二叉树：");
-            PostorderTraversal(_tree);
+            PostorderTraversalRecursively(_tree);
             Console.WriteLine();
         }
 
         public void PrintBTreeByInorder()
         {
             Console.Write("中序遍历二叉树：");
-            InorderTraversal(_tree);
+            InorderTraversalRecursively(_tree);
             Console.WriteLine();
         }
 
@@ -174,25 +175,25 @@ namespace Algorithm.Core
         /// 递归实现前序遍历
         /// </summary>
         /// <param name="tree"></param>
-        private void PreorderTraversal(BTreeEntity tree)
+        private void PreorderTraversalRecursively(BTreeEntity tree)
         {
             if (tree == null) return;
 
             Console.Write(tree.Value);
-            PreorderTraversal(tree.Left);
-            PreorderTraversal(tree.Right);
+            PreorderTraversalRecursively(tree.Left);
+            PreorderTraversalRecursively(tree.Right);
         }
 
         /// <summary>
         /// 递归实现后序遍历
         /// </summary>
         /// <param name="tree"></param>
-        private void PostorderTraversal(BTreeEntity tree)
+        private void PostorderTraversalRecursively(BTreeEntity tree)
         {
             if (tree == null) return;
 
-            PostorderTraversal(tree.Left);
-            PostorderTraversal(tree.Right);
+            PostorderTraversalRecursively(tree.Left);
+            PostorderTraversalRecursively(tree.Right);
             Console.Write(tree.Value);
         }
 
@@ -200,13 +201,251 @@ namespace Algorithm.Core
         /// 递归实现中序遍历
         /// </summary>
         /// <param name="tree"></param>
-        private void InorderTraversal(BTreeEntity tree)
+        private void InorderTraversalRecursively(BTreeEntity tree)
         {
             if (tree == null) return;
 
-            InorderTraversal(tree.Left);
+            InorderTraversalRecursively(tree.Left);
             Console.Write(tree.Value);
-            InorderTraversal(tree.Right);
+            InorderTraversalRecursively(tree.Right);
+        }
+
+        /// <summary>
+        /// 非递归实现前序遍历
+        /// <see cref="http://blog.csdn.net/zhangxiangdavaid/article/details/37115355"/>
+        /// </summary>
+        public string PreorderTraversalUnrecursively1()
+        {
+            string output = string.Empty;
+
+            if (_tree == null) return output;
+
+            Stack<BTreeEntity> stack = new Stack<BTreeEntity>();
+            BTreeEntity p = _tree;
+
+            while (p != null || stack.Count > 0)
+            {
+                if (p != null)
+                {
+                    //打印
+                    output += "," + p.Value;
+                    
+                    //循环获取最左下角的节点，并压栈途经的节点
+                    stack.Push(p);
+                    p = p.Left;
+                }
+                else
+                {
+                    p = stack.Pop();
+                    p = p.Right;
+                }
+            }
+            
+            /* 或者
+            while (p != null || stack.Count > 0)
+            {
+                while (p != null)
+                {
+                    stack.Push(p);
+                    output += "," + p.Value;
+                    p = p.Left;
+                }
+
+                p = stack.Pop();
+                p = p.Right;
+            }
+            */
+
+            return output.Substring(1);
+        }
+
+        /// <summary>
+        /// 非递归实现前序遍历
+        /// 根据
+        /// <see cref="http://blog.csdn.net/zhangxiangdavaid/article/details/37115355"/>
+        /// </summary>
+        public string PreorderTraversalUnrecursively2()
+        {
+            string output = string.Empty;
+
+            if (_tree == null) return output;
+
+            Stack<BTreeEntity> stack = new Stack<BTreeEntity>();
+            BTreeEntity p = _tree;
+
+            //先使树根入栈，这是循环退出的关键点
+            stack.Push(_tree);
+
+            //遇见右孩子，先入栈。 接着处理左孩子，如果不为空，移动p节点，否则，处理栈顶节点（一般为右孩子的节点，如果弹出栈的是根，则结束循环）
+            while (stack.Count > 0)
+            {
+                //先打印
+                output += "," + p.Value;
+
+                if (p.Right != null) stack.Push(p.Right);
+                if (p.Left != null) p = p.Left;
+                else p = stack.Pop();
+            }
+
+            return output.Substring(1);
+        }
+
+        /// <summary>
+        /// 非递归实现中序遍历
+        /// <see cref="http://blog.csdn.net/zhangxiangdavaid/article/details/37115355"/>
+        /// </summary>
+        public string InorderTraversalIteratively1()
+        {
+            string output = string.Empty;
+
+            if (_tree == null) return output;
+
+            Stack<BTreeEntity> stack = new Stack<BTreeEntity>();
+            BTreeEntity p = _tree;
+
+            while (p != null || stack.Count > 0)
+            {
+                if (p != null)
+                {
+                    //循环获取最左下角的节点，并压栈途经的节点
+                    stack.Push(p);
+                    p = p.Left;
+                }
+                else
+                {
+                    p = stack.Pop();
+                    
+                    //打印
+                    output += "," + p.Value; 
+                    
+                    p = p.Right;
+                }
+            }
+
+            /* 或者
+            while (p != null || stack.Count > 0)
+            {
+                while (p != null)
+                {
+                    stack.Push(p);
+                    p = p.Left;
+                }
+
+                p = stack.Pop();
+                output += "," + p.Value;
+                p = p.Right;
+            }
+            */
+
+            return output.Substring(1);
+        }
+
+        /// <summary>
+        /// 非递归实现后序遍历
+        /// 采用一个标志位
+        /// <see cref="http://blog.csdn.net/zhangxiangdavaid/article/details/37115355"/>
+        /// </summary>
+        public string PostorderTraversalIteratively1()
+        {
+            string output = string.Empty;
+
+            if (_tree == null) return output;
+
+            Stack<BTreeEntity> stack = new Stack<BTreeEntity>();
+            BTreeEntity p = _tree;
+            BTreeEntity last = null; //指示上次打印的节点。此节点用于确认右孩子是否处理过
+
+            //处理堆栈中的节点，因为均是左子节点，所以只考虑处理其右子节点
+            while (p != null || stack.Count > 0)
+            {
+                //先循环找到最左下角的节点，并压栈途径的左节点
+                if (p != null)
+                {
+                    stack.Push(p);
+                    p = p.Left;
+                }
+                else
+                {
+                    p = stack.Pop();
+
+                    //当右子节点存在且没有右孩子没有被访问过，则从处理右孩子；否则打印
+                    if (p.Right != null && p.Right != last)
+                    {
+                        stack.Push(p);
+                        p = p.Right;
+                    }
+                    else
+                    {
+                        output += "," + p.Value;
+                        last = p;
+                    }
+                }
+            }
+
+            return output.Substring(1);
+        }
+
+        /// <summary>
+        /// 非递归实现后序遍历
+        /// 逻辑和PostorderTraversalIteratively1，基本类似，区别是通过添加标识字段来确定是否有必要处理右孩子
+        /// <see cref="http://blog.csdn.net/zhangxiangdavaid/article/details/37115355"/>
+        /// </summary>
+        public string PostorderTraversalIteratively2()
+        {
+            //借助IsRightProcessed标识。 若IsRightProcessed=false，则右孩子没有被访问过；否则则访问过
+            string output = string.Empty;
+
+            if (_tree == null) return output;
+
+            Stack<TagBTreeEntity> stack = new Stack<TagBTreeEntity>();
+            TagBTreeEntity tagBTree;
+            BTreeEntity p = _tree;
+
+            while (p != null || stack.Count > 0)
+            {
+                if (p != null)
+                {
+                    //当p不为null时,循环获取左子节点
+
+                    tagBTree = new TagBTreeEntity();
+                    tagBTree.Tree = p;
+                    tagBTree.IsRightProcessed = false;
+                    stack.Push(tagBTree);
+
+                    p = p.Left;
+                }
+                else
+                {
+                    //当p为pull,说明需要读栈处理啦。
+
+                    //出栈
+                    tagBTree = stack.Pop();
+
+                    if(tagBTree.Tree.Right != null && tagBTree.IsRightProcessed == false)
+                    {
+                        //如果该节点的右子节点不为空，且未被处理过（后序遍历的逻辑：肯定是先处理了右子树的根，然后接着处理当前节点）
+
+                        //更新标记
+                        tagBTree.IsRightProcessed = true;
+
+                        //再次入栈
+                        stack.Push(tagBTree);
+
+                        //获取右孩子
+                        p = tagBTree.Tree.Right;
+                    }
+                    else
+                    {
+                        //此时，左右孩子都已处理过了，或者是因为孩子为null，跳过了
+
+                        output += "," + tagBTree.Tree.Value;
+                        //置空，需要从栈中pop一个新的节点
+                        p = null;
+                    }
+                }
+            }
+
+            return output.Substring(1);
         }
 
         /// <summary>

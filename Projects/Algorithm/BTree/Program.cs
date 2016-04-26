@@ -17,11 +17,18 @@ namespace BTreeTest
             tree.PrintBTreeByPreorder();
             tree.PrintBTreeByInorder();
             tree.PrintBTreeByPostorder();
-            tree.PrintDepth();
-            tree.PrintIsBalanced();
-            tree.PrintAllPathsWithSum(110);
-            tree.PrintCommonMinParentNode(8, 5);
-            tree.PrintCommonMinParentNode2(8, 5);
+            //tree.PrintDepth();
+            //tree.PrintIsBalanced();
+            //tree.PrintAllPathsWithSum(110);
+            //tree.PrintCommonMinParentNode(8, 5);
+            //tree.PrintCommonMinParentNode2(8, 5);
+            string pre1 = tree.PreorderTraversalUnrecursively1();
+            string pre2 = tree.PreorderTraversalUnrecursively2();
+
+            string in1 = tree.InorderTraversalIteratively1();
+
+            string post1 = tree.PostorderTraversalIteratively1();
+            string post2 = tree.PostorderTraversalIteratively2();
 
             //string test="247###5##";
             //BTreeEntity tree2 = BTree.BuildBTree(test);
@@ -30,6 +37,17 @@ namespace BTreeTest
             //Console.WriteLine("BTree1:{0}", tree.Entity.ToString());
             //Console.WriteLine("BTree2:{0}", tree2.ToString());
             //Console.WriteLine("Match result:{0}", result);
+
+            //int[] data = new int[]{ 10,6,14,4,8,12,16 };
+            //BSTree bst = new BSTree(data);
+            //bst.PrintBinarySearchTree();
+            ////bst.ConvertToDoublyLinkedList(bst.Root);
+            ////bst.PrintDoublyLinkedList();
+            //bst.MirrorRecursively();
+            //bst.PrintBinarySearchTree();
+            //bst.MirrorIteratively();
+            //bst.PrintBinarySearchTree();
+
 
             Console.Read();
         }
