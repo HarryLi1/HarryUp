@@ -15,6 +15,8 @@ namespace BuilderModel
             Director.GetCBMWModel().Run();
             Director.GetDBMWModel().Run();
 
+            Console.Read();
+
         }
     }
 }
