@@ -7,13 +7,56 @@ using System.Threading.Tasks;
 
 namespace Algorithm.Core
 {
+    public class MyStack<T>
+    {
+        T[] q = new T[100];
+        int len = 0;
+
+        public void Push(T data)
+        {
+            if (len >= 100) throw new InvalidOperationException("Full collection");
+
+            q[len] = data;
+            len++;
+        }
+
+        public T Pop()
+        {
+            if (len <= 0)
+                throw new InvalidOperationException("Empty collection");
+
+            len--;
+            return q[len];
+        }
+
+        public int Count
+        {
+            get
+            {
+                return len;
+            }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = 0; i < len; i++)
+            {
+                sb.Append(q[i]);
+            }
+
+            return sb.ToString();
+        }
+    }
+
     /// <summary>
     /// 利用两个队列实现栈的Push和Pop操作
     /// </summary>
     public class StackWithQueues
     {
-        private Queue<int> _queue1 = new Queue<int>();
-        private Queue<int> _queue2 = new Queue<int>();
+        private MyQueue<int> _queue1 = new MyQueue<int>();
+        private MyQueue<int> _queue2 = new MyQueue<int>();
 
         public void Push(int value)
         {
@@ -48,6 +91,17 @@ namespace Algorithm.Core
             }
 
             throw new InvalidOperationException("Empty collection");
+        }
+
+        public int Count
+        {
+            get
+            {
+                if (_queue1.Count > 0)
+                    return _queue1.Count;
+                else
+                    return _queue2.Count;
+            }
         }
     }
 

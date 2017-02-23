@@ -50,6 +50,8 @@ namespace Algorithm.Core
                 return null;
             }
 
+            Console.WriteLine(input);
+
             char c = input[0];
             if (c == '#')
             {
@@ -378,6 +380,7 @@ namespace Algorithm.Core
                     {
                         output += "," + p.Value;
                         last = p;
+                        p = null;
                     }
                 }
             }

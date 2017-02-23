@@ -13,7 +13,8 @@ namespace BTreeTest
         static void Main(string[] args)
         {
             BTree tree = new BTree();
-            tree.InitBTree("2347##8##5##3#6##");
+            //tree.InitBTree("2347##8##5##3#6##");
+            tree.InitBTree("23##45#6##7##");
             tree.PrintBTreeByPreorder();
             tree.PrintBTreeByInorder();
             tree.PrintBTreeByPostorder();

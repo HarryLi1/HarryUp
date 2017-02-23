@@ -12,22 +12,20 @@ namespace Algorithm.Test.Stack
         static void Main(string[] args)
         {
             #region StackWithQueues
-            //StackWithQueues stack = new StackWithQueues();
-            //int data;
-            //stack.Push(1);
-            //stack.Push(2);
-            //stack.Push(3);
-            //data = stack.Pop();
-            //stack.Push(4);
-            //stack.Push(5);
-            //data = stack.Pop();
-            //stack.Push(6);
-            //data = stack.Pop();
-            //data = stack.Pop();
-            //stack.Push(7);
-            //stack.Push(8);
-            //stack.Push(9);
-            //data = stack.Pop();
+            StackWithQueues stack = new StackWithQueues();
+            int data;
+            stack.Push(1);
+            stack.Push(2);
+            stack.Push(3);
+            data = stack.Pop();
+            stack.Push(4);
+            stack.Push(5);
+            data = stack.Pop();
+            stack.Push(6);
+            data = stack.Pop();
+            data = stack.Pop();
+            stack.Push(7);
+            data = stack.Pop();
             #endregion StackWithQueues
 
             #region StackWithMin1

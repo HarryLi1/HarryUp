@@ -12,8 +12,8 @@ namespace Algorithm.Core
     /// </summary>
     public class QueueWithStacks
     {
-        Stack<int> _stack1 = new Stack<int>();
-        Stack<int> _stack2 = new Stack<int>();
+        MyStack<int> _stack1 = new MyStack<int>();
+        MyStack<int> _stack2 = new MyStack<int>();
 
         public void Enqueue(int value)
         {
@@ -34,6 +34,53 @@ namespace Algorithm.Core
                 return _stack2.Pop();
 
             throw new InvalidOperationException("Empty collection");
+        }
+    }
+
+    public class MyQueue<T>
+    {
+        T[] q = new T[100];
+        int len = 0;
+        int start = 0;
+
+        public void Enqueue(T data)
+        {
+            if (len >= 100) throw new InvalidOperationException("Full collection");
+
+            q[(start + len) % 100] = data;
+            len++;
+        }
+
+        public T Dequeue()
+        {
+            if(len<=0) 
+                throw new InvalidOperationException("Empty collection");
+
+            len --;
+            T ret = q[start];
+            start = (start + 1) % 100;
+
+            return ret;
+        }
+
+        public int Count 
+        { 
+            get 
+            { 
+                return len; 
+            }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            for (int i = start; i < start+len; i++)
+            {
+                sb.Append(q[i]);
+            }
+
+            return sb.ToString();
         }
     }
 }
